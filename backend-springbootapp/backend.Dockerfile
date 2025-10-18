@@ -6,6 +6,7 @@ WORKDIR /app
 COPY mvnw .          
 COPY .mvn/ .mvn
 COPY pom.xml ./
+
 COPY src ./src
 
 # Give execute permission for mvnw
@@ -17,9 +18,6 @@ RUN ./mvnw clean package -DskipTests
 FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
-COPY --from=builder /app/target/backend-springbootapp-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/target/*.jar app.jar
 
-#server.port
 EXPOSE 2000
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
